@@ -4,14 +4,18 @@ import { moviesData } from "./Components/data";
 import Search from "./Components/Search";
 import MoviesList from "./Components/MoviesList";
 import AddMovie from "./Components/AddMovie";
+import LoaderHOC from "./Components/HOC/LoaderHOC"; // import the HOC
 
 import "./App.css";
 
+// instead of returning the MoviesList  we will wrapping it into HOC
+const WithLoaderList = LoaderHOC(MoviesList);
 class App extends React.Component {
   state = {
     minRating: 1,
     nameFilter: "",
-    moviesData: moviesData
+    moviesData: moviesData,
+    isLoading: false
   };
 
   AddMovie = newMovie => {
@@ -39,7 +43,7 @@ class App extends React.Component {
           searchMovie={this.searchMovie}
           searchByRating={this.searchByRating}
         />
-        <MoviesList
+        <WithLoaderList
           moviesData={this.state.moviesData}
           nameFilter={this.state.nameFilter}
           minRating={this.state.minRating}
